@@ -1,0 +1,33 @@
+AddType application/x-httpd-php70 .php
+Options -Indexes
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule (.*) $1.php [L]
+RewriteRule ^(user/(.*?)/feed)/?$ channel_feed.php?n=$2 [L]
+RewriteCond %{QUERY_STRING} view=1
+RewriteRule ^(user/(.*?)/videos)/?$ channel_playlists.php?n=$2 [L]
+RewriteCond %{QUERY_STRING} view=0
+RewriteRule ^(user/(.*?)/videos)/?$ channel_videos.php?n=$2 [L]
+RewriteRule ^(user/(.*?)/videos)/?$ channel_videos.php?n=$2 [L]
+RewriteRule ^(user/(.*?)/featured)/?$ channel.php?n=$2 [L]
+RewriteRule ^(user/(.*?))/?$ channel.php?n=$2 [L]
+RewriteRule ^(user/(.*?)/discussion)/?$ channel_discussion.php?n=$2 [L]
+RewriteRule ^(userr/(.*?)/featured)/?$ /2013/channel.php?n=$2 [L]
+RewriteRule ^(userr/(.*?)/)/?$ /2013/channel.php?n=$2 [L]
+RewriteRule ^(userr/(.*?)/videos)/?$ /2013/channel_videos.php?n=$2 [L]
+RewriteRule ^(userr/(.*?)/playlists)/?$ /2013/channel_playlists.php?n=$2 [L]
+RewriteRule ^(feed/(.*?)/)/?$ /2013/feed.php?n=$2 [L]
+RewriteRule ^(feed/(.*?)/u)/?$ /2013/feed_uploads.php?n=$2 [L]
+# Check if the requested file exists
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Check if the requested directory exists
+RewriteCond %{REQUEST_FILENAME} -d
+
+# If the directory contains an index.php file, serve it
+RewriteCond %{REQUEST_FILENAME}/index.php -f
+RewriteRule ^(.*)$ /$1/index.php [L]
+
+
+ErrorDocument 404 /404.php
